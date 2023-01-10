@@ -31,7 +31,7 @@ class CertnetContract extends Contract {
         // putState - stores data to the blockchain
         await ctx.stub.putState(studentKey, studentBuffer);
 		return newStudentObject;
-    // }
+    }
     // 2.Get Student
     // async getStudent(ctx, studentId){
     //     // Re-create composite key to fetch the correct student object
