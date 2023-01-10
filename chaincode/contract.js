@@ -1,6 +1,7 @@
 'use strict';
 
 const {Contract} = require('fabric-contract-api');
+const studentKeyObjectType = 'certnet.student';
 
 class CertnetContract extends Contract {
 
@@ -15,7 +16,7 @@ class CertnetContract extends Contract {
     // 1.Create Student
     async createStudent(ctx, studentId, name, email){
         // Composite Keys ->
-        const studentKey = ctx.stub.createCompositeKey('certnet.student', [studentId]);
+        const studentKey = ctx.stub.createCompositeKey(studentKeyObjectType, [studentId]);
         
         const newStudentObject = {
             docType: 'student',
@@ -33,6 +34,17 @@ class CertnetContract extends Contract {
         return newStudentObject;
     }
     // 2.Get Student
+    async getStudent(ctx, studentId){
+        // Re-create composite key to fetch the correct student object
+        const studentKey = ctx.stub.createCompositeKey(studentKeyObjectType,[studentId]);
+        // Retrieve value from blockchain. It will return data as byte array
+        const studentBuffer = await ctx.stub.getState(studentKey);
+        if(studentBuffer){
+            return JSON.parse(studentBuffer.toString());
+        } else {
+            return 'Asset with key '+studentId+' does not exist on network';
+        }
+    }
     // 3.Issue Certificate
     // 4.Verify Certificate
 }
