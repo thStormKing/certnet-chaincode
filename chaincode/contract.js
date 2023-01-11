@@ -16,7 +16,6 @@ class CertnetContract extends Contract {
     async createStudent(ctx, studentId, name, email){
         // Composite Keys ->
         const studentKey = ctx.stub.createCompositeKey('certnet.student', [studentId]);
-        
         const newStudentObject = {
 			docType: 'student',
 			studentId: studentId,
@@ -33,17 +32,17 @@ class CertnetContract extends Contract {
 		return newStudentObject;
     }
     // 2.Get Student
-    // async getStudent(ctx, studentId){
-    //     // Re-create composite key to fetch the correct student object
-    //     const studentKey = ctx.stub.createCompositeKey('certnet.student',[studentId]);
-    //     // Retrieve value from blockchain. It will return data as byte array
-    //     const studentBuffer = await ctx.stub.getState(studentKey);
-    //     if(studentBuffer){
-    //         return JSON.parse(studentBuffer.toString());
-    //     } else {
-    //         return 'Asset with key '+studentId+' does not exist on network';
-    //     }
-    // }
+    async getStudent(ctx, studentId){
+        // Re-create composite key to fetch the correct student object
+        const studentKey = ctx.stub.createCompositeKey('certnet.student',[studentId]);
+        // Retrieve value from blockchain. It will return data as byte array
+        const studentBuffer = await ctx.stub.getState(studentKey);
+        if(studentBuffer){
+            return JSON.parse(studentBuffer.toString());
+        } else {
+            return 'Asset with key '+studentId+' does not exist on network';
+        }
+    }
     // 3.Issue Certificate
     // 4.Verify Certificate
 }
