@@ -7107,3 +7107,11 @@ test-network/organizations/peerOrganizations/org2.example.com/users/User1@org2.e
 test-network/organizations/peerOrganizations/org2.example.com/users/User1@org2.example.com/tls/client.crt
 test-network/organizations/peerOrganizations/org2.example.com/users/User1@org2.example.com/tls/client.key
 test-network/system-genesis-block/.gitkeep
+chaincode/node_modules/fabric-contract-api/.nyc_output/0e441184-0a25-4f47-a9ca-241979a6f86d.json
+chaincode/node_modules/fabric-contract-api/.nyc_output/ad487225-077e-4a4e-8635-c326900fc737.json
+chaincode/node_modules/fabric-contract-api/.nyc_output/processinfo/0e441184-0a25-4f47-a9ca-241979a6f86d.json
+chaincode/node_modules/fabric-contract-api/.nyc_output/processinfo/ad487225-077e-4a4e-8635-c326900fc737.json
+chaincode/node_modules/fabric-shim/.nyc_output/707668d0-71e0-4e5b-94f3-a5b266ac663c.json
+chaincode/node_modules/fabric-shim/.nyc_output/b8d18684-71b9-46e2-963d-8791e9110b53.json
+chaincode/node_modules/fabric-shim/.nyc_output/processinfo/707668d0-71e0-4e5b-94f3-a5b266ac663c.json
+chaincode/node_modules/fabric-shim/.nyc_output/processinfo/b8d18684-71b9-46e2-963d-8791e9110b53.json
