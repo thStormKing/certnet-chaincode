@@ -41,7 +41,7 @@ class CertnetContract extends Contract {
     // Issue Certificate
     async issueCertificate(ctx, studentId, courseId, gradeReceived, originalHash){
         let msgSender = ctx.clientIdentity.getID();
-        let certificateKey = ctx.stub.createCompositeKey('certnet.certificate',[courseId]);
+        let certificateKey = ctx.stub.createCompositeKey('certnet.certificate',[courseId,studentId]);
         let studentKey = ctx.stub.createCompositeKey('certnet.student', [studentId]);
 
         // Fetch student with given ID from blockchain
@@ -77,6 +77,42 @@ class CertnetContract extends Contract {
         }
     }
     // Verify Certificate
+    async verifyCertificate(ctx, studentId, courseId, currentHash) {
+        let verifier = ctx.clientIdentity.getID();
+        let certificateKey = ctx.stub.createCompositeKey('certnet.certificate', [courseId, studentId]);
+
+        // Fetch certificate with given ID from blockchain
+        let certificateBuffer = await ctx.stub.getState(certificateKey)
+        .catch(err => console.log(err));
+
+        // Convert the received certificate buffer to a JSON object
+        const certificate = JSON.parse(certificateBuffer.toString());
+
+        // Check if original certificate has matches current hash
+        if(certificate === undefined || certificate.originalHash !== currentHash) {
+            // Certificate is not valid, issue event notifying the same
+            let verificationResult = {
+                certificate: courseId+'-'+studentId,
+                student: studentId,
+                verifier: verifier,
+                result: 'xxx - INVALID',
+                verifiedOn: ctx.stub.getTxTimestamp()
+            };
+            ctx.stub.setEvent('verifyCertificate',Buffer.from(JSON.stringify(verificationResult)));
+            return true;
+        } else {
+            // Certificate is valid, issue event notifying the student application
+            let verificationResult = {
+                certificate: courseId+'-'+studentId,
+                student: studentId,
+                verifier: verifier,
+                result: '*** - Valid',
+                verifiedOn: ctx.stub.getTxTimestamp()
+            };
+            ctx.stub.setEvent('verifyCertificate',Buffer.from(JSON.stringify(verificationResult)));
+            return true;
+        }
+    }
 }
 
 module.exports = CertnetContract;
