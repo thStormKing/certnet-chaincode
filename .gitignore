@@ -13895,3 +13895,10 @@ chaincode_bkp/node_modules/yocto-queue/index.js
 chaincode_bkp/node_modules/yocto-queue/license
 chaincode_bkp/node_modules/yocto-queue/package.json
 chaincode_bkp/node_modules/yocto-queue/readme.md
+chaincode/node_modules/.cache/nyc/contract-50a713b430ae21bad0fac04ea3ecfd7d7605a57345d80bbd0ed22a1cc0d7934c.js
+chaincode/node_modules/.cache/nyc/contract-ad888f95d521ba2caeb38680107538da3a26b0c1a4f4f59df4522ac851258eef.js
+chaincode/node_modules/.cache/nyc/contract-bf90ed387d0a691bfe0521caded7ca45603d06de9e4912a6c3b49cf631552c6e.js
+chaincode/node_modules/.cache/nyc/contract-c5a842a8c207aa12ae7702c263d0dac4553cf98dad38766de18736846511f5f8.js
+chaincode/.nyc_output/9e46ed94-2033-49e2-8f78-14189e14a023.json
+chaincode/.nyc_output/processinfo/9e46ed94-2033-49e2-8f78-14189e14a023.json
+chaincode/.nyc_output/processinfo/index.json

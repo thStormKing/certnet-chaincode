@@ -11,8 +11,11 @@ class CertnetContract extends Contract {
     async instantiate(ctx) {
         console.log('Chaincode deployed successfully');
     }
-    // 1. Create Student
+    // 1. Create Student - studentId, name, email)
     async createStudent(ctx, studentId, name, email) {
+        console.log("====================Entered createStudent====================");
+        // const studentJSON = JSON.parse(studentIn);
+        // console.log(studentJSON);
         const studentKey = ctx.stub.createCompositeKey('certnet.student',[studentId]);
         const newStudentObject = {
             docType: 'student',
@@ -25,21 +28,26 @@ class CertnetContract extends Contract {
         }
         const studentBuffer = Buffer.from(JSON.stringify(newStudentObject));
         await ctx.stub.putState(studentKey,studentBuffer);
+        console.log("====================Exit createStudent====================");
         return newStudentObject;
     }
 
     // Get student
     async getStudent(ctx, studentId) {
+        console.log("====================Entered getStudent====================");
         const studentKey = ctx.stub.createCompositeKey('certnet.student',[studentId]);
         const studentBuffer = await ctx.stub.getState(studentKey);
         if(studentBuffer) {
+            console.log("====================Exit getStudent====================");
             return JSON.parse(studentBuffer.toString());
         } else {
-            return 'Asset with key ' + studentId + 'does not exist on network.';
+            console.log("====================Exit getStudent====================");
+            return 'Asset with key ' + studentId + ' does not exist on network.';
         }
     }
     // Issue Certificate
     async issueCertificate(ctx, studentId, courseId, gradeReceived, originalHash){
+        console.log("====================Entered issueCertificate====================");
         let msgSender = ctx.clientIdentity.getID();
         let certificateKey = ctx.stub.createCompositeKey('certnet.certificate',[courseId,studentId]);
         let studentKey = ctx.stub.createCompositeKey('certnet.student', [studentId]);
@@ -54,6 +62,7 @@ class CertnetContract extends Contract {
 
         // Make sure that student exists and certificate does not exist on the network
         if(student.length === 0 || certificate.length !== 0) {
+            console.log("====================Exit issueCertificate with error====================");
             throw new Error('Invalid Student ID: '+ studentId +' or CourseID: '+ courseId+'. Either student does not exist on network or certificate already exists.');
         } else {
             let certificateObject = {
@@ -64,8 +73,8 @@ class CertnetContract extends Contract {
                 certId: courseId+'-'+studentId,
                 originalHash: originalHash,
                 grade: gradeReceived,
-                createdAt: ctx.stub.getTxTimestamp(),
-                updatedAt: ctx.stub.getTxTimestamp()
+                createdAt: ctx.stub.getTxTimestamp().toDate(),
+                updatedAt: ctx.stub.getTxTimestamp().toDate()
             };
 
             // Convert JSON object to buffer and store in blockchain
@@ -73,13 +82,18 @@ class CertnetContract extends Contract {
             await ctx.stub.putState(certificateKey,dataBuffer);
 
             // Return value of new certificate issued to student
+            console.log("====================Exit issueCertificate====================");
             return certificateObject;
         }
     }
     // Verify Certificate
     async verifyCertificate(ctx, studentId, courseId, currentHash) {
+        console.log("====================Entered verifyCertificate====================");
         let verifier = ctx.clientIdentity.getID();
         let certificateKey = ctx.stub.createCompositeKey('certnet.certificate', [courseId, studentId]);
+
+        console.log('Verifier: '+verifier);
+        console.log('OU '+ctx.clientIdentity.getAttributeValue('OU'));
 
         // Fetch certificate with given ID from blockchain
         let certificateBuffer = await ctx.stub.getState(certificateKey)
@@ -96,9 +110,10 @@ class CertnetContract extends Contract {
                 student: studentId,
                 verifier: verifier,
                 result: 'xxx - INVALID',
-                verifiedOn: ctx.stub.getTxTimestamp()
+                verifiedOn: ctx.stub.getTxTimestamp().toDate()
             };
             ctx.stub.setEvent('verifyCertificate',Buffer.from(JSON.stringify(verificationResult)));
+            console.log("====================Exit verifyCertificate====================");
             return true;
         } else {
             // Certificate is valid, issue event notifying the student application
@@ -107,9 +122,10 @@ class CertnetContract extends Contract {
                 student: studentId,
                 verifier: verifier,
                 result: '*** - Valid',
-                verifiedOn: ctx.stub.getTxTimestamp()
+                verifiedOn: ctx.stub.getTxTimestamp().toDate()
             };
             ctx.stub.setEvent('verifyCertificate',Buffer.from(JSON.stringify(verificationResult)));
+            console.log("====================Exit verifyCertificate====================");
             return true;
         }
     }
