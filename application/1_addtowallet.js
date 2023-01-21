@@ -22,6 +22,6 @@ async function main(certificatePath, keyfilePath) {
 // Trigger for the main function to test from CLI.
 // Not needed in production
 
-const certPath = '/home/vboxuser/certification-network/test-network/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/signcerts/Admin@org1.example.com-cert.pem';
-const keyfilePath = '/home/vboxuser/certification-network/test-network/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/keystore/priv_sk';
-main(certPath,keyfilePath);
+// const certPath = '/home/vboxuser/certification-network/test-network/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/signcerts/Admin@org1.example.com-cert.pem';
+// const keyfilePath = '/home/vboxuser/certification-network/test-network/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/keystore/priv_sk';
+// main(certPath,keyfilePath);
