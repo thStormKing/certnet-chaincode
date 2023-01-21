@@ -18,8 +18,9 @@ async function main(studentId, courseId, gradeReceived, originalHash) {
     }
 }
 
+module.exports.execute = main;
+
 // Trigger for the main function to test from CLI.
 // Not needed in production
 
 // main('00001', 'C1', 'A', 'asdfgh');
-

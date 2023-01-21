@@ -18,6 +18,7 @@ async function main(studentId, name, email) {
     }
 }
 
+module.exports.execute = main;
 // Trigger for the main function to test from CLI.
 // Not needed in production
 
