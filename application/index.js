@@ -23,7 +23,7 @@ app.get('/',
 app.post('/addToWallet',
 (req,res) => {
     console.log('In add to wallet.');
-    addToWallet.execute(req.body.certificatePath, req.body.privateKeyPath)
+    addToWallet.execute(req.body.certificatePath, req.body.keyfilePath)
         .then(
             () => {
                 console,log('User credentials added to wallet');
